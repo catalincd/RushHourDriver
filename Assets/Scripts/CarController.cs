@@ -6,8 +6,13 @@ public class CarController : MonoBehaviour
 {
     // TO DO: auto find?
     public GameObject car;
-    public float maxSteeringAngle = 30;
-    public float maxAcceleration = 5;
+    public float maxSteeringAngle = 45;
+    public float maxAcceleration = 15;
+    public float maxBrake = 7.5f;
+
+    public bool updateWheels = true;
+
+    public Vector3 centerOfMass = new Vector3(0.0f, 0.0f, 0.0f);
 
     private float steeringAngle = 0.0f;
     private float acceleration = 0.0f;
@@ -23,8 +28,14 @@ public class CarController : MonoBehaviour
     private WheelCollider frontWheelRight;
     private WheelCollider frontWheelLeft;
 
+    private BoxCollider carCollider;
     private Rigidbody carBody;
     private GameObject wheelColliders;
+
+    public CarController(GameObject _car)
+    {
+        car = _car;
+    }
 
     void Start()
     {
@@ -59,7 +70,7 @@ public class CarController : MonoBehaviour
                 GameObject newCollider = new GameObject(child.name + "-collider");
                 newCollider.transform.SetParent(wheelColliders.transform);
 
-                newCollider.transform.localPosition = child.transform.localPosition + new Vector3(wheelWidth * Mathf.Sign(child.transform.localPosition.x) / 2.0f, 0.0f, 0.0f);
+                newCollider.transform.localPosition = child.transform.localPosition + new Vector3(wheelWidth * Mathf.Sign(child.transform.localPosition.x), 0.0f, 0.0f);
                 newCollider.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
                 newCollider.gameObject.AddComponent<WheelCollider>();
@@ -76,7 +87,7 @@ public class CarController : MonoBehaviour
                 
 
                 wheelCollider.radius = wheelSize / 2.0f;
-                wheelCollider.center = new Vector3(0.0f, 0.3f, 0.0f); // 0.15f
+                wheelCollider.center = new Vector3(0.0f, 0.15f, 0.0f); // 0.15f
 
                 
 
@@ -93,7 +104,15 @@ public class CarController : MonoBehaviour
             }
         }
         
+        car.AddComponent<Rigidbody>();
         carBody = car.GetComponent<Rigidbody>();
+        carBody.centerOfMass = centerOfMass;
+        carBody.mass = 300;
+
+        car.AddComponent<BoxCollider>();
+        carCollider = car.GetComponent<BoxCollider>();
+        carCollider.center = new Vector3(0.0f, 0.65f, 0.05f);
+        carCollider.size = new Vector3(0.8f, 0.5f, 2.0f);
     }
 
     void Update()
@@ -103,30 +122,61 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        rearWheelLeft.motorTorque = maxAcceleration * acceleration;
+        rearWheelRight.motorTorque = maxAcceleration * acceleration;
 
-        //if(verticalInput > 0.01f)
-        //Debug.Log($"Acc: {acceleration * verticalInput}");
+        frontWheelLeft.motorTorque = maxAcceleration * acceleration;
+        frontWheelRight.motorTorque = maxAcceleration * acceleration;
 
-        //if(horizontalInput > 0.01f)
-        //Debug.Log($"Steer: {maxSteeringAngle * horizontalInput}");
 
-        rearWheelLeft.motorTorque = maxAcceleration * verticalInput;
-        rearWheelRight.motorTorque = maxAcceleration * verticalInput;
+        rearWheelLeft.brakeTorque = maxBrake * brakeforce;
+        rearWheelRight.brakeTorque = maxBrake * brakeforce;
 
-        frontWheelLeft.motorTorque = maxAcceleration * verticalInput;
-        frontWheelRight.motorTorque = maxAcceleration * verticalInput;
+        frontWheelLeft.brakeTorque = maxBrake * brakeforce;
+        frontWheelRight.brakeTorque = maxBrake * brakeforce;
 
-        frontWheelLeft.steerAngle  = maxSteeringAngle * horizontalInput;
-        frontWheelRight.steerAngle  = maxSteeringAngle * horizontalInput;
 
-        UpdateMeshes();
+        frontWheelLeft.steerAngle  = maxSteeringAngle * steeringAngle;
+        frontWheelRight.steerAngle  = maxSteeringAngle * steeringAngle;
+
+
+        if(updateWheels)
+            UpdateMeshes();
     }
 
     private void UpdateMeshes()
     {
+        Vector3 pos;
+        Quaternion rot; 
 
+        rearWheelLeft.GetWorldPose(out pos, out rot);
+        leftBackWheel.rotation = rot;
+       // leftBackWheel.position = pos;
+
+        rearWheelRight.GetWorldPose(out pos, out rot);
+        rightBackWheel.rotation = rot;
+       // rightBackWheel.position = pos;
+
+        frontWheelLeft.GetWorldPose(out pos, out rot);
+        leftFrontWheel.rotation = rot;
+        //leftFrontWheel.position = pos;
+
+        frontWheelRight.GetWorldPose(out pos, out rot);
+        rightFrontWheel.rotation = rot;
+        //rightFrontWheel.position = pos;
+    }
+
+    private void SetWheelPosition(WheelCollider xCollider, Transform xTransform)
+    {
+        var meshFilter = xTransform.gameObject.GetComponent<MeshFilter>();
+        float wheelWidth = meshFilter.mesh.bounds.size.z;
+
+        Vector3 pos;
+        Quaternion rot; 
+
+        rearWheelLeft.GetWorldPose(out pos, out rot);
+        leftBackWheel.rotation = rot;
+        leftBackWheel.position = pos;
     }
 
     public void Steer(float _steering)
