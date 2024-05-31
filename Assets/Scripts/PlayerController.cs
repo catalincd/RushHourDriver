@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject[] CarObjects;
     public CarController controller;
 
     void Start()
     {
-        
+        SpawnCar();
     }
 
     void Update()
@@ -24,5 +25,10 @@ public class PlayerController : MonoBehaviour
             //controller.Accelerate(0.0f);
             //controller.Brake(50.0f);
         }
+    }
+
+    public void SpawnCar(float startingX = 0.0f)
+    {
+
     }
 }
