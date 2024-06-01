@@ -32,6 +32,10 @@ public class CarController : MonoBehaviour
     private Rigidbody carBody;
     private GameObject wheelColliders;
 
+    private bool followingTrafficWaypoints = false;
+    private bool isLeft = true;
+    private List<Vector3> waypointsToFollow;
+
     public CarController(GameObject _car)
     {
         car = _car;
@@ -39,8 +43,8 @@ public class CarController : MonoBehaviour
 
     void Start()
     {
-        transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        transform.eulerAngles = new Vector3(0.0f, 90f, 0.0f);
+        //transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        //transform.eulerAngles = new Vector3(0.0f, 90f, 0.0f);
         // TO DO: remove this
         
 
@@ -49,8 +53,18 @@ public class CarController : MonoBehaviour
 
         wheelColliders.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         wheelColliders.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        wheelColliders.transform.eulerAngles = new Vector3(0.0f, 90f, 0.0f);
+        wheelColliders.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
         
+
+        car.AddComponent<Rigidbody>();
+        carBody = car.GetComponent<Rigidbody>();
+        carBody.centerOfMass = centerOfMass;
+        carBody.mass = 150;
+
+        car.AddComponent<BoxCollider>();
+        carCollider = car.GetComponent<BoxCollider>();
+        carCollider.center = new Vector3(0.0f, 0.65f, 0.05f);
+        carCollider.size = new Vector3(0.8f, 0.5f, 2.0f);
 
         foreach (Transform child in car.transform)
         {
@@ -59,7 +73,7 @@ public class CarController : MonoBehaviour
             if(child.name == "wheel-back-left") leftBackWheel = child;
             if(child.name == "wheel-back-right") rightBackWheel = child;
 
-            if(child.name.Contains("wheel-"))
+            if(child.name.Contains("wheel-") && !child.name.Contains("collider"))
             {
                 //child.gameObject.layer = LayerMask.NameToLayer("Wheels"); 
 
@@ -70,14 +84,14 @@ public class CarController : MonoBehaviour
                 GameObject newCollider = new GameObject(child.name + "-collider");
                 newCollider.transform.SetParent(wheelColliders.transform);
 
-                newCollider.transform.localPosition = child.transform.localPosition + new Vector3(wheelWidth * Mathf.Sign(child.transform.localPosition.x), 0.0f, 0.0f);
+                newCollider.transform.localPosition = child.transform.localPosition + new Vector3(wheelWidth * Mathf.Sign(child.transform.localPosition.x) * 0.65f, 0.0f, 0.0f);
                 newCollider.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
                 newCollider.gameObject.AddComponent<WheelCollider>();
                 var wheelCollider = newCollider.gameObject.GetComponent<WheelCollider>();
 
                 JointSpring spring = wheelCollider.suspensionSpring;
-                Debug.Log($"{spring.spring}, {spring.damper}");
+                // Debug.Log($"{spring.spring}, {spring.damper}");
                 
                 spring.spring = 3500f;
                 spring.damper = 400f;
@@ -100,24 +114,14 @@ public class CarController : MonoBehaviour
 
             if(child.name.Contains("body"))
             {
-                child.gameObject.layer = LayerMask.NameToLayer("CarBodies"); 
+                //child.gameObject.layer = LayerMask.NameToLayer("CarBodies"); 
             }
         }
-        
-        car.AddComponent<Rigidbody>();
-        carBody = car.GetComponent<Rigidbody>();
-        carBody.centerOfMass = centerOfMass;
-        carBody.mass = 300;
-
-        car.AddComponent<BoxCollider>();
-        carCollider = car.GetComponent<BoxCollider>();
-        carCollider.center = new Vector3(0.0f, 0.65f, 0.05f);
-        carCollider.size = new Vector3(0.8f, 0.5f, 2.0f);
     }
 
     void Update()
     {
-        
+        if(followingTrafficWaypoints) UpdateFollower();
     }
 
     void FixedUpdate()
@@ -192,5 +196,53 @@ public class CarController : MonoBehaviour
     public void Brake(float _brakeforce)
     {
         brakeforce = _brakeforce;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return car.transform.position;
+    }
+
+    public Transform GetTransform()
+    {
+        return car.transform;
+    }    
+
+    public void StartFollowingTraffic(bool _isLeft, List<Vector3> waypoints)
+    {
+        followingTrafficWaypoints = true;
+        isLeft = _isLeft;
+        waypointsToFollow = new List<Vector3>(waypoints);
+    }
+
+    private void UpdateFollower()
+    {
+        if(waypointsToFollow.Count == 0) return;
+
+        if(isLeft)
+        {
+            while(waypointsToFollow.Count > 0 && waypointsToFollow[0].z > car.transform.position.z)
+            {
+                waypointsToFollow.RemoveAt(0);
+            }
+        }
+        else
+        {
+            while(waypointsToFollow.Count > 0 && waypointsToFollow[0].z < car.transform.position.z)
+            {
+                waypointsToFollow.RemoveAt(0);
+            }
+        }
+
+        if(waypointsToFollow.Count == 0) return;
+
+        Vector3 carForward = GetTransform().forward;
+        Vector3 target = waypointsToFollow[0] - GetPosition(); 
+        target.Normalize();
+        Vector2 targetDirection = new Vector2(target.x, target.z);
+        Vector2 currentDirection = new Vector2(carForward.x, carForward.z);
+        float angle = Vector2.SignedAngle(targetDirection, currentDirection);
+        float steeringDelta = Mathf.Clamp(angle / maxSteeringAngle, -1.0f, 1.0f);
+        Steer(steeringDelta);
     }
 }

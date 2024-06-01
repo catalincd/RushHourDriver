@@ -306,13 +306,19 @@ MonoBehaviour:
   MaxBlocks: 25
   CameraObject: {fileID: 1614752962}
   SpawnableObjects:
-  - {fileID: 8301308466139944800, guid: eb61fa64fae61ac43bd18b0b238cffcc, type: 3}
-  - {fileID: 8169324125904325457, guid: b01530ec294ea7c48812eb0669ba7277, type: 3}
   - {fileID: 2439606357776888240, guid: ba8c128dedae02a4bb60964bc009b20b, type: 3}
-  - {fileID: 2539566756908737170, guid: ba6b2ab65ba447d4c8771944589b8912, type: 3}
   - {fileID: 8688261325644747918, guid: a6ef301c120ef6949b122eea9c70e41d, type: 3}
-  - {fileID: 6434478056483601295, guid: 1b0739f8b52bd874bb02ed1481e48002, type: 3}
-  - {fileID: 6152493710375014463, guid: cbf25d74eeac00343aabbc01554b1d4c, type: 3}
+  - {fileID: 8301308466139944800, guid: eb61fa64fae61ac43bd18b0b238cffcc, type: 3}
+  TrafficCars:
+  - {fileID: 919132149155446097, guid: 7f10d6b52226dff449d9502847b548db, type: 3}
+  - {fileID: 919132149155446097, guid: 45bfcc94f28de924b9ffec5418a0558a, type: 3}
+  - {fileID: 919132149155446097, guid: 4981c291e2457d048b92e6a0a28ec8ef, type: 3}
+  carScale: 0.175
+  speed: 10
+  speedVariation: 1.1
+  spawnStride: 2500
+  strideVariation: 1.1
+  zLimit: 7.1
 --- !u!4 &584736448
 Transform:
   m_ObjectHideFlags: 0
@@ -322,62 +328,12 @@ Transform:
   m_GameObject: {fileID: 584736446}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5818653, y: -3.7934594, z: 4.9773526}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &656364445
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 656364446}
-  - component: {fileID: 656364447}
-  m_Layer: 0
-  m_Name: CarController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &656364446
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656364445}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &656364447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656364445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f47b232a1d03a428d5a4545aa24eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  car: {fileID: 0}
-  maxSteeringAngle: 45
-  maxAcceleration: 15
-  maxBrake: 7.5
-  updateWheels: 0
-  centerOfMass: {x: 0, y: 0, z: 0}
 --- !u!1 &1385623190
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc47872eb0c435542a4f32e626326831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypointGenerators:
+  - {fileID: 80075080}
+  - {fileID: 584736447}
   cameraObject: {fileID: 1614752966}
   CarObjects:
   - {fileID: 919132149155446097, guid: 7f10d6b52226dff449d9502847b548db, type: 3}
@@ -444,11 +403,15 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 102276a67e7dc7c419f12e79542581c4, type: 3}
   - {fileID: 919132149155446097, guid: 8b75c2d58c2ec4e479b9cdfb6cede0ab, type: 3}
   - {fileID: 919132149155446097, guid: 2df6c65e7d9ad4d4891218550b47acb7, type: 3}
-  controller: {fileID: 0}
+  AutoDriverOffset: 0.25
+  maxSteeringAngle: 55
   maxAcceleration: 10
   maxBrake: 7
   carScale: 0.175
   Reversed: 0
+  DrawDebugLines: 0
+  DrawDebugAngleLines: 0
+  LinesMaterial: {fileID: 2100000, guid: 1629591e13f194a4ab9bc5fcedfee58c, type: 2}
 --- !u!1 &1614752962
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,7 +548,7 @@ Transform:
   m_GameObject: {fileID: 1942673354}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07891917, y: 0.24620077, z: 0.14768292}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -633,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9116056d2419749a6225d2d9e3385f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 6
+  width: 8
   height: 5
   offset: 1
   stride: 1
@@ -652,6 +615,5 @@ SceneRoots:
   - {fileID: 1942673355}
   - {fileID: 80075081}
   - {fileID: 584736448}
-  - {fileID: 656364446}
   - {fileID: 1385623191}
   - {fileID: 1614752963}

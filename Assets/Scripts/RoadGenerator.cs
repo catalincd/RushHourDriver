@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour
+public class RoadGenerator : WaypointGenerator
 {
     public float ForwardBlocks = 20;
     public float BackwardBlocks = 10;
@@ -12,9 +12,12 @@ public class RoadGenerator : MonoBehaviour
     public GameObject CameraObject;
     public GameObject[] RoadObjects;
     private List<GameObject> blocks;
+    private List<Vector3> waypoints;
 
     void Start()
     {
+        waypoints = new List<Vector3>();
+
         blocks = new List<GameObject>();
 
         while(lastBlock < 0)
@@ -42,6 +45,15 @@ public class RoadGenerator : MonoBehaviour
     	newBlock.transform.SetParent(transform);
     	newBlock.transform.position = (new Vector3(lastBlock, 0, 0));
 
+        WaypointContainer waypointContainer = (WaypointContainer) newBlock.GetComponent<WaypointContainer>();
+        List<Vector3> localWaypoints = new List<Vector3>(waypointContainer.waypoints);
+        for(var i=0;i<localWaypoints.Count;i++)
+        {
+            localWaypoints[i] = localWaypoints[i] + new Vector3(lastBlock, 0, 0);
+        }
+
+        waypoints.AddRange(localWaypoints);
+
         blocks.Add(newBlock);
 
         lastBlock += BlockLength;
@@ -51,5 +63,14 @@ public class RoadGenerator : MonoBehaviour
             Destroy(blocks[0]);   
             blocks.RemoveAt(0);
         }
+
+
+    }
+
+    public override List<Vector3> YieldWaypoints() 
+    {
+        var yieldList = new List<Vector3>(waypoints);
+        waypoints.Clear();  
+        return yieldList;
     }
 }
