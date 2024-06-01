@@ -24,8 +24,7 @@ public class TrafficGenerator : MonoBehaviour
     private Vector3[] leftWaypoints;
     private Vector3[] rightWaypoints;
 
-    private List<GameObject> leftCars;
-    private List<GameObject> rightCars;
+    private List<GameObject> carObjects;
 
     public void Setup(GameObject[] _cars, float _carScale = 0.175f, float _carSpeed = 10.0f, float _speedVariation = 1.2f, float _spawnStride = 500, float _strideVariation = 2.0f, float _zLimit = 7.5f)
     {
@@ -40,8 +39,7 @@ public class TrafficGenerator : MonoBehaviour
     void Start()
     {
         waypointContainer = (WaypointContainer) gameObject.GetComponent<WaypointContainer>();
-        leftCars = new List<GameObject>();
-        rightCars = new List<GameObject>();
+        carObjects = new List<GameObject>();
 
         leftWaypoints = waypointContainer.trafficWaypoints;
         rightWaypoints = (Vector3[])leftWaypoints.Clone();
@@ -63,25 +61,13 @@ public class TrafficGenerator : MonoBehaviour
 
     private void DeleteCars()
     {
-        for(int i=0;i<leftCars.Count;i++)
+        for(int i=0;i<carObjects.Count;i++)
         {
-            if(Mathf.Abs(leftCars[i].transform.position.z) > zLimit || leftCars[i].transform.position.y < -0.5f)
+            if(carObjects[i] == null || Mathf.Abs(carObjects[i].transform.position.z) > zLimit || carObjects[i].transform.position.y < -0.5f)
             {
-                Destroy(leftCars[i]);
-                leftCars.RemoveAt(i);
+                if(carObjects[i] != null) Destroy(carObjects[i]);
+                carObjects.RemoveAt(i);
                 i--;
-                Debug.Log("Deleted car");
-            }
-        }
-
-        for(int i=0;i<rightCars.Count;i++)
-        {
-            if(Mathf.Abs(rightCars[i].transform.position.z) > zLimit || rightCars[i].transform.position.y < -0.5f)
-            {
-                Destroy(rightCars[i]);
-                rightCars.RemoveAt(i);
-                i--;
-                Debug.Log("Deleted car");
             }
         }
     }
@@ -101,7 +87,7 @@ public class TrafficGenerator : MonoBehaviour
         newCar.transform.position = leftWaypoints[0];
         newCar.transform.localScale = (new Vector3(carScale, carScale, carScale));
         newCar.transform.eulerAngles = (new Vector3(0.0f, 180.0f, 0.0f));
-        leftCars.Add(newCar);
+        carObjects.Add(newCar);
 
     
         CarController controller = newCar.AddComponent<CarController>();
@@ -131,7 +117,7 @@ public class TrafficGenerator : MonoBehaviour
         newCar.transform.position = rightWaypoints[0];
         newCar.transform.localScale = (new Vector3(carScale, carScale, carScale));
         newCar.transform.eulerAngles = (new Vector3(0.0f, 0.0f, 0.0f));
-        rightCars.Add(newCar);
+        carObjects.Add(newCar);
 
     
         CarController controller = newCar.AddComponent<CarController>();

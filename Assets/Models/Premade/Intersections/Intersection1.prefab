@@ -93,8 +93,8 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
   trafficWaypoints:
-  - {x: 0.215, y: 0, z: 7}
-  - {x: 0.215, y: 0, z: -7}
+  - {x: -0.215, y: 0, z: 7}
+  - {x: -0.215, y: 0, z: -7}
   trafficLeft: 1
   trafficRight: 1
 --- !u!1001 &1168740474853380274

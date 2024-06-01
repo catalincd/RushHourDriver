@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
     public float maxBrake = 7.5f;
 
     public bool updateWheels = true;
+    public bool isPlayer = false;
 
     public Vector3 centerOfMass = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -35,6 +36,8 @@ public class CarController : MonoBehaviour
     private bool followingTrafficWaypoints = false;
     private bool isLeft = true;
     private List<Vector3> waypointsToFollow;
+
+    private int layer;
 
     public CarController(GameObject _car)
     {
@@ -65,6 +68,10 @@ public class CarController : MonoBehaviour
         carCollider = car.GetComponent<BoxCollider>();
         carCollider.center = new Vector3(0.0f, 0.65f, 0.05f);
         carCollider.size = new Vector3(0.8f, 0.5f, 2.0f);
+        //carCollider.isTrigger = true;
+
+        layer = LayerMask.NameToLayer("CarBodies");
+        car.layer = layer;
 
         foreach (Transform child in car.transform)
         {
@@ -114,7 +121,7 @@ public class CarController : MonoBehaviour
 
             if(child.name.Contains("body"))
             {
-                //child.gameObject.layer = LayerMask.NameToLayer("CarBodies"); 
+                child.gameObject.layer = LayerMask.NameToLayer("CarBodies"); 
             }
         }
     }
@@ -244,5 +251,21 @@ public class CarController : MonoBehaviour
         float angle = Vector2.SignedAngle(targetDirection, currentDirection);
         float steeringDelta = Mathf.Clamp(angle / maxSteeringAngle, -1.0f, 1.0f);
         Steer(steeringDelta);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(isPlayer)
+        {
+            if(collision.gameObject.layer == layer)
+            {
+                Destroy(collision.gameObject);
+                Destroy(transform.parent.gameObject);
+                // GAME OVER HERE
+                // PLAY ANY SOUNDS / PARTICLE SYSTEMS HERE
+            }
+            else
+                Debug.Log($"COLLIDED: {collision.gameObject.layer}");
+        }
     }
 }

@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (Input.GetKey("space") ^ Reversed)
+        if ((Input.GetKey("space") || GetTouch()) ^ Reversed)
         {
             controller.Accelerate(0.0f);
             controller.Brake(1.0f);
@@ -60,6 +60,19 @@ public class PlayerController : MonoBehaviour
             controller.Brake(0.0f);
             controller.Accelerate(1.0f);
         }
+    }
+
+    private bool GetTouch()
+    {
+        for(int i=0;i<Input.touchCount;i++)
+        {
+            Touch touch = Input.GetTouch(i);
+            if (touch.position.y < Screen.height - 50)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void UpdateWaypoints()
@@ -168,6 +181,7 @@ public class PlayerController : MonoBehaviour
         controller.maxSteeringAngle = maxSteeringAngle;
         controller.centerOfMass = new Vector3(0.0f, 0.0f, 0.0f);
         controller.updateWheels = true;
+        controller.isPlayer = true;
 
         cameraObject.SetTarget(newCar.transform);
     }

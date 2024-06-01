@@ -204,7 +204,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -244,7 +244,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -306,18 +306,38 @@ MonoBehaviour:
   MaxBlocks: 25
   CameraObject: {fileID: 1614752962}
   SpawnableObjects:
-  - {fileID: 2439606357776888240, guid: ba8c128dedae02a4bb60964bc009b20b, type: 3}
-  - {fileID: 8688261325644747918, guid: a6ef301c120ef6949b122eea9c70e41d, type: 3}
   - {fileID: 8301308466139944800, guid: eb61fa64fae61ac43bd18b0b238cffcc, type: 3}
+  - {fileID: 8169324125904325457, guid: b01530ec294ea7c48812eb0669ba7277, type: 3}
+  - {fileID: 2439606357776888240, guid: ba8c128dedae02a4bb60964bc009b20b, type: 3}
+  - {fileID: 2539566756908737170, guid: ba6b2ab65ba447d4c8771944589b8912, type: 3}
+  - {fileID: 8688261325644747918, guid: a6ef301c120ef6949b122eea9c70e41d, type: 3}
+  - {fileID: 6152493710375014463, guid: cbf25d74eeac00343aabbc01554b1d4c, type: 3}
   TrafficCars:
-  - {fileID: 919132149155446097, guid: 7f10d6b52226dff449d9502847b548db, type: 3}
+  - {fileID: 919132149155446097, guid: 92900690de8ab494899243592a3bd497, type: 3}
+  - {fileID: 919132149155446097, guid: 84ee0d5347869ae4086a49023cddf494, type: 3}
+  - {fileID: 919132149155446097, guid: 4b25f3bbb096b47498836fccf2a689ed, type: 3}
+  - {fileID: 919132149155446097, guid: 93b3a05c821a6904eb32eafb37540fe1, type: 3}
+  - {fileID: 919132149155446097, guid: 2bf6bc85922e91448bec8439ac0c0f81, type: 3}
+  - {fileID: 919132149155446097, guid: b0d3f73ba6912724ab0811f7d8d5d577, type: 3}
+  - {fileID: 919132149155446097, guid: 4ff77c2c81a669841baf5742321d6e1c, type: 3}
+  - {fileID: 919132149155446097, guid: 300c03cf232edc44ca8da66b300c1a1b, type: 3}
   - {fileID: 919132149155446097, guid: 45bfcc94f28de924b9ffec5418a0558a, type: 3}
+  - {fileID: 919132149155446097, guid: fc3c4da99fadc4949819bfabcdcfdc36, type: 3}
   - {fileID: 919132149155446097, guid: 4981c291e2457d048b92e6a0a28ec8ef, type: 3}
+  - {fileID: 919132149155446097, guid: bc72f5865f3c61f4c9e371ba07412a8a, type: 3}
+  - {fileID: 919132149155446097, guid: 482479ad53c29944b8f07c39c8786c10, type: 3}
+  - {fileID: 919132149155446097, guid: 6c9178de697b3b04983b3e489530c150, type: 3}
+  - {fileID: 919132149155446097, guid: ff200743de6175946839f20f6eeae601, type: 3}
+  - {fileID: 919132149155446097, guid: 75f0d4af1a9cbda4fa4dd501f4d3d120, type: 3}
+  - {fileID: 919132149155446097, guid: 102276a67e7dc7c419f12e79542581c4, type: 3}
+  - {fileID: 919132149155446097, guid: 8b75c2d58c2ec4e479b9cdfb6cede0ab, type: 3}
+  - {fileID: 919132149155446097, guid: 2df6c65e7d9ad4d4891218550b47acb7, type: 3}
+  - {fileID: 919132149155446097, guid: 7f10d6b52226dff449d9502847b548db, type: 3}
   carScale: 0.175
   speed: 10
   speedVariation: 1.1
-  spawnStride: 2500
-  strideVariation: 1.1
+  spawnStride: 2000
+  strideVariation: 2
   zLimit: 7.1
 --- !u!4 &584736448
 Transform:
@@ -487,7 +507,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 100
+  field of view: 110
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -519,8 +539,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 10
-  offset: {x: -0.6, y: 0.5, z: 0}
+  offset: {x: -0.6, y: 0.55, z: 0}
   targetOffset: {x: 7.5, y: -0.6, z: 0}
+  cameraRollTime: 2000
 --- !u!1 &1942673354
 GameObject:
   m_ObjectHideFlags: 0

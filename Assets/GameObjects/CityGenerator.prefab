@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5961001796685884620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1940549665524720486}
+  - component: {fileID: 3846074543393505543}
+  - component: {fileID: 1233127441592152585}
+  m_Layer: 0
+  m_Name: CityGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1940549665524720486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961001796685884620}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3846074543393505543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961001796685884620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a906fcf790bd844bbfdffa3e4359cc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForwardBlocks: 20
+  BackwardBlocks: 10
+  MaxBlocks: 25
+  BlockLength: 6
+  width: 5
+  stride: 2
+  offset: 1.5
+  lastBlock: -10
+  CameraObject: {fileID: 0}
+  SpawnableObjects:
+  - {fileID: 5522636331725174120, guid: 3f23d306698879a4eb319cb8712869dd, type: 3}
+  - {fileID: 177721006694855448, guid: 6ba481cfa2ef1704b8020755e48e5acf, type: 3}
+  - {fileID: 8864489069624311000, guid: 09720e58f569deb48a9edd0ceb017631, type: 3}
+  - {fileID: 3560276511295167160, guid: f13eba69fc2cd0d46a934da59dbaeac2, type: 3}
+  - {fileID: 6561133520545587777, guid: 17cd577bd7deaae4298c2bf313fe90ca, type: 3}
+  - {fileID: 232593878508333878, guid: 8dbc9877459218843952eccede628300, type: 3}
+  - {fileID: 5834426065177019814, guid: 6c90099fccb8cc349917c2868bb9d1eb, type: 3}
+  - {fileID: 8422289298910097748, guid: 9d6ef2930e65f074784aef37f6b175a7, type: 3}
+--- !u!114 &1233127441592152585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961001796685884620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9116056d2419749a6225d2d9e3385f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 8
+  height: 5
+  offset: 1
+  stride: 1
+  ForwardBlocks: 20
+  BackwardBlocks: 10
+  MaxBlocks: 25
+  BlockLength: 6
+  lastBlock: -12
+  grass: {fileID: 7747766645060888666, guid: b01f2c1a2a8cd474eaa730f0f81d245a, type: 3}
+  CameraObject: {fileID: 0}
