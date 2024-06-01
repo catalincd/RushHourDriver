@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -460,7 +460,7 @@ Transform:
   m_GameObject: {fileID: 1614752962}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.38, y: -0.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -597,14 +597,9 @@ MonoBehaviour:
   lastBlock: -10
   CameraObject: {fileID: 1614752962}
   SpawnableObjects:
-  - {fileID: 5522636331725174120, guid: 3f23d306698879a4eb319cb8712869dd, type: 3}
-  - {fileID: 177721006694855448, guid: 6ba481cfa2ef1704b8020755e48e5acf, type: 3}
-  - {fileID: 8864489069624311000, guid: 09720e58f569deb48a9edd0ceb017631, type: 3}
-  - {fileID: 3560276511295167160, guid: f13eba69fc2cd0d46a934da59dbaeac2, type: 3}
-  - {fileID: 6561133520545587777, guid: 17cd577bd7deaae4298c2bf313fe90ca, type: 3}
-  - {fileID: 232593878508333878, guid: 8dbc9877459218843952eccede628300, type: 3}
-  - {fileID: 5834426065177019814, guid: 6c90099fccb8cc349917c2868bb9d1eb, type: 3}
-  - {fileID: 8422289298910097748, guid: 9d6ef2930e65f074784aef37f6b175a7, type: 3}
+  - {fileID: 8379474401953404644, guid: aed42085665a41743a46da1442b297bc, type: 3}
+  - {fileID: 4268039276592548700, guid: 9200cf4724115f84eb79870e258cc8a0, type: 3}
+  - {fileID: 2557493752435990204, guid: 2d95abcfdc04001408ca43d21361934e, type: 3}
 --- !u!114 &1942673357
 MonoBehaviour:
   m_ObjectHideFlags: 0
