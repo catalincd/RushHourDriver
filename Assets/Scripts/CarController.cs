@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -45,7 +43,7 @@ public class CarController : MonoBehaviour
     private bool isLeft = true;
     private List<Vector3> waypointsToFollow;
 
-    private int layer;
+    private int xlayer;
 
     public CarController(GameObject _car)
     {
@@ -78,8 +76,9 @@ public class CarController : MonoBehaviour
         carCollider.size = new Vector3(0.8f, 0.5f, 2.0f);
         //carCollider.isTrigger = true;
 
-        layer = LayerMask.NameToLayer("CarBodies");
-        car.layer = layer;
+        xlayer = 17;
+        car.layer = xlayer;
+        gameObject.layer = xlayer;
 
         foreach (Transform child in car.transform)
         {
@@ -129,7 +128,7 @@ public class CarController : MonoBehaviour
 
             if(child.name.Contains("body"))
             {
-                child.gameObject.layer = LayerMask.NameToLayer("CarBodies"); 
+                child.gameObject.layer = xlayer; 
             }
         }
     }
@@ -265,11 +264,12 @@ public class CarController : MonoBehaviour
     {
         GameObject wreck = GameObject.Find("WreckageSpawner");
         
+        if(wreck == null) return;
+
         wreck.transform.position = transform.position;
         wreckageSpawner = wreck.GetComponent<WreckageSpawner>();
         
-        
-
+        Debug.Log(xlayer);
         if(isPlayer)
         {
             GameObject particle = GameObject.Find("ParticleSystem");
@@ -281,7 +281,7 @@ public class CarController : MonoBehaviour
             particleSystem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         
 
-            if(collision.gameObject.layer == layer)
+            if(collision.gameObject.layer == xlayer)
             {
                 Debug.Log(transform.position);
                 Vector3 pos_plr = transform.position;
@@ -298,6 +298,5 @@ public class CarController : MonoBehaviour
             else
                 Debug.Log($"COLLIDED: {collision.gameObject.layer}");
         }
-
     }
 }

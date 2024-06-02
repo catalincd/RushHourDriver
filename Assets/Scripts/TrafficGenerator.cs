@@ -87,6 +87,7 @@ public class TrafficGenerator : MonoBehaviour
         newCar.transform.position = leftWaypoints[0];
         newCar.transform.localScale = (new Vector3(carScale, carScale, carScale));
         newCar.transform.eulerAngles = (new Vector3(0.0f, 180.0f, 0.0f));
+        newCar.layer = 17;
         carObjects.Add(newCar);
 
     
@@ -117,6 +118,7 @@ public class TrafficGenerator : MonoBehaviour
         newCar.transform.position = rightWaypoints[0];
         newCar.transform.localScale = (new Vector3(carScale, carScale, carScale));
         newCar.transform.eulerAngles = (new Vector3(0.0f, 0.0f, 0.0f));
+        newCar.layer = 17;
         carObjects.Add(newCar);
 
     

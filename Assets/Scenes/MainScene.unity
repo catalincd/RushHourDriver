@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92fb71dfbf987e645beec21644c47bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anisotropicText: {fileID: 1830699143}
+  anisotropicText: {fileID: 922788563}
   aliasingText: {fileID: 113713039}
   shadowsText: {fileID: 330941003}
   vsyncText: {fileID: 881256275}

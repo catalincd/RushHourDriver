@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameObject[] CarObjects;
     public GameObject enigne;
 
+    public GameSceneUI ui;
+
     public float AutoDriverOffset = 0.25f;
     
     public float maxSteeringAngle = 45;
@@ -49,7 +51,7 @@ public class PlayerController : MonoBehaviour
         //controller.Steer(horizontalInput);
         // float verticalInput = Input.GetAxis("Vertical");
 
-
+        float progressBias = Mathf.Lerp(Mathf.Clamp(controller.GetPosition().x / 100.0f, 0.0f, 1.0f), 1.0f, 2.0f);
 
         if ((Input.GetKey("space") || GetTouch()) ^ Reversed)
         {
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             controller.Brake(0.0f);
-            controller.Accelerate(1.0f);
+            controller.Accelerate(progressBias);
         }
     }
 
@@ -176,6 +178,7 @@ public class PlayerController : MonoBehaviour
         newCar.transform.eulerAngles = (new Vector3(0.0f, 90.0f, 0.0f));
         GameObject newEngine = Instantiate(enigne) as GameObject; 
         newEngine.transform.SetParent(newCar.transform);
+        ui.carObject = newCar;
 
         controller = newCar.AddComponent<CarController>();
         controller.car = newCar;
