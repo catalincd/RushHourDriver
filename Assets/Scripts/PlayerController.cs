@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public WaypointGenerator[] waypointGenerators;
     public CameraController cameraObject;
     public GameObject[] CarObjects;
+    public GameObject enigne;
 
     public float AutoDriverOffset = 0.25f;
     
@@ -173,6 +174,8 @@ public class PlayerController : MonoBehaviour
         newCar.transform.position = (new Vector3(startingX, 0.5f, 0.0f));
         newCar.transform.localScale = (new Vector3(carScale, carScale, carScale));
         newCar.transform.eulerAngles = (new Vector3(0.0f, 90.0f, 0.0f));
+        GameObject newEngine = Instantiate(enigne) as GameObject; 
+        newEngine.transform.SetParent(newCar.transform);
 
         controller = newCar.AddComponent<CarController>();
         controller.car = newCar;

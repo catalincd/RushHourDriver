@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
     // TO DO: auto find?
     public GameObject car;
+    [SerializeField]
+    public WreckageSpawner wreckageSpawner;
+    public ParticleSystem particleSystem;
+    public AudioSource audioSource;
+
     public float maxSteeringAngle = 45;
     public float maxAcceleration = 15;
     public float maxBrake = 7.5f;
@@ -127,7 +135,7 @@ public class CarController : MonoBehaviour
     }
 
     void Update()
-    {
+    { 
         if(followingTrafficWaypoints) UpdateFollower();
     }
 
@@ -255,17 +263,41 @@ public class CarController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        GameObject wreck = GameObject.Find("WreckageSpawner");
+        
+        wreck.transform.position = transform.position;
+        wreckageSpawner = wreck.GetComponent<WreckageSpawner>();
+        
+        
+
         if(isPlayer)
         {
+            GameObject particle = GameObject.Find("ParticleSystem");
+            GameObject audio = GameObject.Find("BigBoom");
+            particleSystem = particle.GetComponent<ParticleSystem>();
+            audioSource = audio.GetComponent<AudioSource>();
+            audioSource.transform.position = transform.position;
+            particleSystem.transform.position = transform.position;
+            particleSystem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        
+
             if(collision.gameObject.layer == layer)
             {
+                Debug.Log(transform.position);
+                Vector3 pos_plr = transform.position;
+                Vector3 pos_npc = collision.transform.position;
                 Destroy(collision.gameObject);
                 Destroy(transform.parent.gameObject);
-                // GAME OVER HERE
-                // PLAY ANY SOUNDS / PARTICLE SYSTEMS HERE
+                // wreckageSpawner.TriggerSpawn(pos_plr);
+                // wreckageSpawner.TriggerSpawn(pos_npc);
+                wreckageSpawner.TriggerSpawn(collision.contacts[0].point);
+                audioSource.Play();
+                particleSystem.Emit(50);
+                
             }
             else
                 Debug.Log($"COLLIDED: {collision.gameObject.layer}");
         }
+
     }
 }
